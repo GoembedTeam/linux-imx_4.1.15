@@ -179,6 +179,32 @@ static int ar8035_phy_fixup(struct phy_device *dev)
 
 #define PHY_ID_AR8035 0x004dd072
 
+static int yt8511_phy_fixup(struct phy_device *dev)
+{
+	u16 val;
+
+	/* Close broadcast address 0x0 */
+	phy_write(dev, 0xd, 0x7);
+	phy_write(dev, 0xe, 0x8001);
+	phy_write(dev, 0xd, 0x4007);
+	phy_write(dev, 0xe, 0x3f);
+
+	/* Turn off sleep mode, sleep mode does not output 125MHz clk */
+	phy_write(dev, 0x1e, 0x27);
+	phy_write(dev, 0x1f, 0x2027);
+
+	/* Output 125MHz clk */
+	phy_write(dev, 0x1e, 0x0c);
+	phy_write(dev, 0x1f, 0x8057);
+
+	val = phy_read(dev, 0xe);
+	phy_write(dev, 0xe, val & ~(1 << 8));
+
+	return 0;
+}
+
+#define PHY_ID_YT8511 0x0000010a
+
 static void __init imx6q_enet_phy_init(void)
 {
 	if (IS_BUILTIN(CONFIG_PHYLIB)) {
@@ -190,6 +216,8 @@ static void __init imx6q_enet_phy_init(void)
 				ar8031_phy_fixup);
 		phy_register_fixup_for_uid(PHY_ID_AR8035, 0xffffffef,
 				ar8035_phy_fixup);
+		phy_register_fixup_for_uid(PHY_ID_YT8511, 0x00000fff,
+				yt8511_phy_fixup);
 	}
 }
 
