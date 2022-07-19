@@ -301,6 +301,7 @@ static const struct spi_device_id m25p_ids[] = {
 	{"w25x64"},	{"w25q64"},	{"w25q80"},	{"w25q80bl"},
 	{"w25q128"},	{"w25q256"},	{"cat25c11"},
 	{"cat25c03"},	{"cat25c09"},	{"cat25c17"},	{"cat25128"},
+	{"by25d16assig"},
 
 	/*
 	 * Generic support for SPI NOR that can be identified by the JEDEC READ
