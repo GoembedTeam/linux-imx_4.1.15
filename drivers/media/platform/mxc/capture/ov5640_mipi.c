@@ -1981,7 +1981,7 @@ static int ov5640_probe(struct i2c_client *client,
 	struct device *dev = &client->dev;
 	int retval;
 	u8 chip_id_high, chip_id_low;
-
+#if 0
 	/* request power down pin */
 	pwn_gpio = of_get_named_gpio(dev->of_node, "pwn-gpios", 0);
 	if (!gpio_is_valid(pwn_gpio)) {
@@ -2003,7 +2003,7 @@ static int ov5640_probe(struct i2c_client *client,
 					"ov5640_mipi_reset");
 	if (retval < 0)
 		return retval;
-
+#endif
 	/* Set initial values for the sensor struct. */
 	memset(&ov5640_data, 0, sizeof(ov5640_data));
 	ov5640_data.sensor_clk = devm_clk_get(dev, "csi_mclk");
